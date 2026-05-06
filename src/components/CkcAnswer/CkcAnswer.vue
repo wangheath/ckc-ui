@@ -2,8 +2,8 @@
   <template v-for="(meassageGroupView, index) in currentMeassageViewInfo" :key="index">
     <div  v-if="meassageGroupView.messageGroupInfo.length > 0">
       <CkcAnswerThinkingHead 
-        :meassageGroupView="meassageGroupView" 
-        :currentMeassageViewInfo="currentMeassageViewInfo" />
+        :messageGroupView="meassageGroupView" 
+        :currentMessageViewInfo="currentMeassageViewInfo" />
       <CkcAnswerDocuments v-if="meassageGroupView.isDocumentGroup" :meassageGroupView="meassageGroupView" />
       <template v-else>
         <div v-show="meassageGroupView.isExpanded">  
@@ -60,11 +60,19 @@ function clickRecomendation(message: string) {
 }
 
 watch(() => prop.messages.length, (val) => {
+  // console.log('watch messages', prop.messages, val)
   if (val <= 0) {
     return;
   }
   handleData(prop.messages[val - 1]);
   console.log('currentMeassageViewInfo', currentMeassageViewInfo.value)
+});
+watch(() => prop.historyMessages, (val) => {
+  if (val && val.length > 0) {
+    val.forEach((message) => {
+      handleData(message);
+    })
+  }
 });
 </script>
 

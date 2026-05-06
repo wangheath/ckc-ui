@@ -1,8 +1,19 @@
 <template>
   <div v-if="isShow" class="ckc-ui-think-head">
     <img class="ckc-ui-think-img" src="../../assets/imgs/deepThink.gif" alt="avatar" />
-    执行完成({{ meassageGroupView.thinkState }})
-    <button class="ckc-ui-think-btn" @click="toggleFold(meassageGroupView)">
+    <template v-if="messageGroupView.thinkState === 'loading'">
+      执行中...
+      <!-- 思考中... -->
+    </template>
+    <template v-if="messageGroupView.thinkState === 'success'">
+      执行完成
+      <!-- 已深度思考 -->
+    </template>
+    <template v-if="messageGroupView.thinkState === 'break'">
+      执行终止
+      <!-- 已终止 -->
+    </template>
+    <button class="ckc-ui-think-btn" @click="toggleFold(messageGroupView)">
       <img src="../../assets/imgs/arrow-down.png" alt="avatar" />
     </button>
   </div>
@@ -11,19 +22,19 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { MessageType, type MessageViewInfo } from '../types/message';
-const { meassageGroupView, currentMeassageViewInfo } = defineProps<{
-    meassageGroupView: MessageViewInfo;
-    currentMeassageViewInfo: MessageViewInfo[];
+const { messageGroupView, currentMessageViewInfo } = defineProps<{
+    messageGroupView: MessageViewInfo;
+    currentMessageViewInfo: MessageViewInfo[];
 }>();
 const toggleFold = (messageGroupView: MessageViewInfo) => {
-  const groupIndex = currentMeassageViewInfo.indexOf(messageGroupView);
+  const groupIndex = currentMessageViewInfo.indexOf(messageGroupView);
   if (groupIndex < 0) {
     return;
   }
 
-  const isLastGroup = (groupIndex === currentMeassageViewInfo.length - 1) 
-                      || (groupIndex === currentMeassageViewInfo.length - 2 
-                          && currentMeassageViewInfo[currentMeassageViewInfo.length - 1].messageGroupInfo[0].type === MessageType.DOCUMENTS
+  const isLastGroup = (groupIndex === currentMessageViewInfo.length - 1) 
+                      || (groupIndex === currentMessageViewInfo.length - 2 
+                          && currentMessageViewInfo[currentMessageViewInfo.length - 1].messageGroupInfo[0].type === MessageType.DOCUMENTS
                         );
   const nextGroupExpandState = !messageGroupView.isExpanded;
   const thinkingMessage = messageGroupView.messageGroupInfo.find(
@@ -43,7 +54,7 @@ const toggleFold = (messageGroupView: MessageViewInfo) => {
   }
 }
 const isShow = computed(() => {
-  const thinkingMessage = meassageGroupView.messageGroupInfo.find(
+  const thinkingMessage = messageGroupView.messageGroupInfo.find(
     (item) => item.type === MessageType.THINKING
   );
   return !!thinkingMessage;
