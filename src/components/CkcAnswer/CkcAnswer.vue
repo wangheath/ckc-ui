@@ -59,21 +59,22 @@ function clickRecomendation(message: string) {
   emit('clickRecomendation', message);
 }
 
-watch(() => prop.messages.length, (val) => {
-  // console.log('watch messages', prop.messages, val)
-  if (val <= 0) {
-    return;
-  }
-  handleData(prop.messages[val - 1]);
+watch(() => prop?.messages?.length, (val) => {
+  if (prop?.messages?.length && prop?.messages?.length > 0) {
+  handleData(prop.messages[val as number - 1]);
   console.log('currentMeassageViewInfo', currentMeassageViewInfo.value)
-});
-watch(() => prop.historyMessages, (val) => {
-  if (val && val.length > 0) {
-    val.forEach((message) => {
-      handleData(message);
-    })
   }
-});
+}, { immediate: true });
+
+watch(() => prop?.historyMessages?.length, () => {
+  console.log('watch historyMessages', prop.historyMessages)
+  if (prop?.historyMessages&& prop?.historyMessages?.length > 0) {
+    prop?.historyMessages.forEach((msg) => {
+      handleData(msg);
+    })
+    console.log('currentMeassageViewInfo from history', currentMeassageViewInfo.value)
+  }
+}, { immediate: true });
 </script>
 
 <style lang="scss">
