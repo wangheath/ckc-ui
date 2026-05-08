@@ -38,7 +38,7 @@
 </template>
 
 <script setup lang="ts">
-import { watch } from 'vue';
+import { watch, ref, provide } from 'vue';
 import type { CkcAnswerProps } from '../types/ckc-answer-props';
 import { MessageType } from '../types/message';
 import { useMessageView } from '../composables/useMessageView';
@@ -50,31 +50,39 @@ import CkcAnswerThinkingHead from './CkcAnswerThinkingHead.vue';
 import CkcAnswerDocuments from './CkcAnswerDocuments.vue';
 import CkcAnswerRecommendations from './CkcAnswerRecommendations.vue';
 const prop = defineProps<CkcAnswerProps>();
+
+// 提供 markdown 渲染组件，默认使用 markstream-vue，也可外部传入
+if (prop.markdownComponent) {
+  provide('markdownComponent', prop.markdownComponent);
+}
 const emit = defineEmits<{  
   (e: 'clickRecomendation', message: string) : void 
 }>();
 const { currentMeassageViewInfo,recommendations,end, handleData } = useMessageView();
+const lastProcessedIndex = ref(0);
+const lastProcessedHistoryIndex = ref(0);
 
 function clickRecomendation(message: string) {
   emit('clickRecomendation', message);
 }
 
-watch(() => prop?.messages?.length, (val) => {
-  if (prop?.messages?.length && prop?.messages?.length > 0) {
-  handleData(prop.messages[val as number - 1]);
-  console.log('currentMeassageViewInfo', currentMeassageViewInfo.value)
+watch(() => prop.messages, (newVal) => {
+  if (newVal && newVal.length > lastProcessedIndex.value) {
+    for (let i = lastProcessedIndex.value; i < newVal.length; i++) {
+      handleData(newVal[i]);
+    }
+    lastProcessedIndex.value = newVal.length;
   }
-}, { immediate: true });
+}, { deep: true, immediate: true });
 
-watch(() => prop?.historyMessages?.length, () => {
-  console.log('watch historyMessages', prop.historyMessages)
-  if (prop?.historyMessages&& prop?.historyMessages?.length > 0) {
-    prop?.historyMessages.forEach((msg) => {
-      handleData(msg);
-    })
-    console.log('currentMeassageViewInfo from history', currentMeassageViewInfo.value)
+watch(() => prop.historyMessages, (newVal) => {
+  if (newVal && newVal.length > lastProcessedHistoryIndex.value) {
+    for (let i = lastProcessedHistoryIndex.value; i < newVal.length; i++) {
+      handleData(newVal[i]);
+    }
+    lastProcessedHistoryIndex.value = newVal.length;
   }
-}, { immediate: true });
+}, { deep: true, immediate: true });
 </script>
 
 <style lang="scss">

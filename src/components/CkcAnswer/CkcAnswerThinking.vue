@@ -4,7 +4,8 @@
     ref="scrollContainer"
     @scroll="handleScroll"
   >
-    <MarkdownRender
+    <component
+      :is="markdownComponent"
       :content="prop.message"
       :custom-html-tags="prop.customHtmlTags"
       :loading="true"
@@ -14,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, onMounted, nextTick } from 'vue';
+import { ref, watch, onMounted, nextTick, inject } from 'vue';
 import { MarkdownRender } from 'markstream-vue';
 
 const prop = defineProps<{
@@ -22,6 +23,9 @@ const prop = defineProps<{
   renderCustomId?: string;
   customHtmlTags?: string[];
 }>();
+
+// 注入外部传入的组件，如果没有则使用默认的 MarkdownRender
+const markdownComponent = inject('markdownComponent', MarkdownRender);
 
 const scrollContainer = ref<HTMLElement | null>(null);
 const shouldAutoScroll = ref(true);

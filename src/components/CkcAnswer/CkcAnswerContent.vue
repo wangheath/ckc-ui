@@ -1,7 +1,8 @@
 <template>
   <div class="ckc-ui-content">
-    <MarkdownRender 
-        :content= prop.message 
+    <component 
+        :is="markdownComponent" 
+        :content="prop.message" 
         :custom-html-tags="prop.customHtmlTags" 
         :loading="true"
         :custom-id="prop.renderCustomId" />
@@ -9,12 +10,17 @@
 </template>
 
 <script setup lang="ts">
+    import { inject } from 'vue';
     import { MarkdownRender } from 'markstream-vue';
+    
     const prop = defineProps<{
         message: string;
         renderCustomId?: string;
         customHtmlTags?: string[];
     }>();
+
+    // 注入外部传入的组件，如果没有则使用默认的 MarkdownRender
+    const markdownComponent = inject('markdownComponent', MarkdownRender);
 </script>
 
 <style lang="scss">

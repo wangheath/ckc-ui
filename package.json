@@ -1,6 +1,6 @@
 {
   "name": "ckc-ui",
-  "version": "0.1.16",
+  "version": "0.1.18",
   "main": "./dist/ckc-ui.mjs",
   "module": "./dist/ckc-ui.es.js",
   "exports": {
@@ -23,8 +23,15 @@
   },
   "dependencies": {
     "json5": "^2.2.3",
-    "markstream-vue": "0.0.13-beta.4",
     "vue": "^3.5.32"
+  },
+  "peerDependencies": {
+    "markstream-vue": "^0.0.13-beta.4 || ^0.1.0"
+  },
+  "peerDependenciesMeta": {
+    "markstream-vue": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@types/node": "^24.12.2",
