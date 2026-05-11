@@ -1,6 +1,7 @@
 <template>
   <div class="ckc-ui-documents">
     <div
+      @click="clickDocument(message.content as unknown as Document)"
       class="ckc-ui-document"
       v-for="(message, index) in visibleDocuments"
       :key="index"
@@ -42,6 +43,12 @@ const visibleDocuments = computed(() =>
     : documents.value.slice(0, 3)
 );
 const showMoreButton = computed(() => documents.value.length > 3);
+const emit = defineEmits<{  
+  (e: 'clickDocument', message: Document) : void 
+}>();
+function clickDocument(message: Document) {
+  emit('clickDocument', message);
+}
 </script>
 
 <style lang="scss">

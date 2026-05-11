@@ -4,7 +4,10 @@
       <CkcAnswerThinkingHead 
         :messageGroupView="meassageGroupView" 
         :currentMessageViewInfo="currentMeassageViewInfo" />
-      <CkcAnswerDocuments v-if="meassageGroupView.isDocumentGroup" :meassageGroupView="meassageGroupView" />
+      <CkcAnswerDocuments 
+        v-if="meassageGroupView.isDocumentGroup" 
+        :meassageGroupView="meassageGroupView"
+        @clickDocument="clickDocument" />
       <template v-else>
         <div v-show="meassageGroupView.isExpanded">  
           <div v-for="message in meassageGroupView.messageGroupInfo">
@@ -40,7 +43,7 @@
 <script setup lang="ts">
 import { watch, ref, provide } from 'vue';
 import type { CkcAnswerProps } from '../types/ckc-answer-props';
-import { MessageType } from '../types/message';
+import { MessageType, type Document } from '../types/message';
 import { useMessageView } from '../composables/useMessageView';
 import CkcAnswerThinking from './CkcAnswerThinking.vue';
 import CkcAnswerToolUse from './CkcAnswerToolUse.vue';
@@ -57,6 +60,7 @@ if (prop.markdownComponent) {
 }
 const emit = defineEmits<{  
   (e: 'clickRecomendation', message: string) : void 
+  (e: 'clickDocument', message: Document) : void 
 }>();
 const { currentMeassageViewInfo,recommendations,end, handleData } = useMessageView();
 const lastProcessedIndex = ref(0);
@@ -64,6 +68,10 @@ const lastProcessedHistoryIndex = ref(0);
 
 function clickRecomendation(message: string) {
   emit('clickRecomendation', message);
+}
+
+function clickDocument(message: Document) {
+  emit('clickDocument', message);
 }
 
 watch(() => prop.messages, (newVal) => {
