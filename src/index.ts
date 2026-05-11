@@ -3,4 +3,5 @@ import './styles/index.scss';
 
 export { CkcAnswer };
 export {type Message, MessageType, type MessageViewInfo} from './components/types/message';
+export { findLastAnswerMessageViewInfo } from './components/utils/index';
 
