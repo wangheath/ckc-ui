@@ -6,9 +6,9 @@
       v-for="(message, index) in visibleDocuments"
       :key="index"
       :class="{
-        'ckc-ui-document--fade': !expanded && index > 0,
-        'ckc-ui-document--fade-2': !expanded && index === 1,
-        'ckc-ui-document--fade-3': !expanded && index === 2
+        'ckc-ui-document--fade': !expanded && index > 0 && documents.length > 3,
+        'ckc-ui-document--fade-2': !expanded && index === 1 && documents.length > 3,
+        'ckc-ui-document--fade-3': !expanded && index === 2 && documents.length > 3
       }"
       :style="{ animationDelay: `${index * 0.05}s` }"
     >
