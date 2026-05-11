@@ -1,15 +1,16 @@
 <template>
-  <div v-if="isShow" class="ckc-ui-think-head">
-    <img class="ckc-ui-think-img" src="../../assets/imgs/deepThink.gif" alt="avatar" />
-    <template v-if="messageGroupView.thinkState === 'loading'">
+  <div v-if="isShow" :class="['ckc-ui-think-head', 'is-expanded']">
+    <img v-if="loading" class="ckc-ui-think-img" src="../../assets/imgs/deepThink.gif" alt="avatar" />
+    <DeepThink v-if="isSuccess"></DeepThink>
+    <template v-if="loading">
       执行中...
       <!-- 思考中... -->
     </template>
-    <template v-if="messageGroupView.thinkState === 'success'">
+    <template v-if="isSuccess">
       执行完成
       <!-- 已深度思考 -->
     </template>
-    <template v-if="messageGroupView.thinkState === 'break'">
+    <template v-if="isBreak">
       执行终止
       <!-- 已终止 -->
     </template>
@@ -22,6 +23,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { MessageType, type MessageViewInfo } from '../types/message';
+import DeepThink from '../svg/deepThink.vue';
 const { messageGroupView, currentMessageViewInfo } = defineProps<{
     messageGroupView: MessageViewInfo;
     currentMessageViewInfo: MessageViewInfo[];
@@ -59,6 +61,9 @@ const isShow = computed(() => {
   );
   return !!thinkingMessage;
 });
+const loading = computed(() => messageGroupView.thinkState === 'loading');
+const isSuccess = computed(() => messageGroupView.thinkState === 'success');
+const isBreak = computed(() => messageGroupView.thinkState === 'break');
 </script>
 
 <style lang="scss">
@@ -66,15 +71,34 @@ const isShow = computed(() => {
 
   .#{$ckcUiPrefix}-think-head {
     @include thinkStyle;
-    .#{$ckcUiPrefix}-think-img {
-      width: 12px;
-      height: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    width: auto;
+
+    &.is-expanded {
+      display: flex;
+      width: 100%;
     }
+
+    .#{$ckcUiPrefix}-think-img {
+      width: 16px;
+      height: 16px;
+      display: inline-block;
+      position: static;
+      top: auto;
+    }
+
     .#{$ckcUiPrefix}-think-btn {
       background: none;
       border: none;
       cursor: pointer;
       outline: none;
+      padding: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
   }
 </style>
