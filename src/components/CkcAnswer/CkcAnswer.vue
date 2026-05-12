@@ -1,43 +1,54 @@
 <template>
-  <template v-for="(meassageGroupView, index) in currentMeassageViewInfo" :key="index">
-    <div  v-if="meassageGroupView.messageGroupInfo.length > 0">
-      <CkcAnswerThinkingHead 
-        :messageGroupView="meassageGroupView" 
-        :currentMessageViewInfo="currentMeassageViewInfo" />
-      <CkcAnswerDocuments 
-        v-if="meassageGroupView.isDocumentGroup" 
-        :meassageGroupView="meassageGroupView"
-        @clickDocument="clickDocument" />
-      <template v-else>
-        <div v-show="meassageGroupView.isExpanded">  
-          <div v-for="message in meassageGroupView.messageGroupInfo">
-              <div v-show="message.thinkingIsExpanded">
-                <CkcAnswerThinking 
-                  v-if="message.type === MessageType.THINKING" 
-                  :message="message.content as string"
-                  :renderCustomId="prop.renderCustomId" 
-                  :customHtmlTags="prop.customHtmlTags" />
-                <CkcAnswerToolUse 
-                  v-if="message.type === MessageType.TOOL_USE" 
-                  :message="message.content as string" />
-                <CkcAnswerToolUseSilent
-                  v-if="message.type === MessageType.TOOL_USE_SILENT"
-                  :message="message.content as string" />
-                <CkcAnswerContent 
-                  v-if="message.type === MessageType.ANSWER" 
-                  :message="message.content as string"
-                  :renderCustomId="prop.renderCustomId" 
-                  :customHtmlTags="prop.customHtmlTags" />  
+  <div class="ckc-ui-upload-heart" v-if="uploadHeartInfo && currentMeassageViewInfo.length === 0">
+    <img class="ckc-ui-loading" src="../../assets/imgs/loading.gif" alt="avatar" />
+    正在执行：{{ uploadHeartInfo.task }} 
+    <span style="margin-left: 20px;">进度： {{ uploadHeartInfo.percent }}</span>
+  </div>
+  <div>
+    <template v-for="(meassageGroupView, index) in currentMeassageViewInfo" :key="index">
+      <div  v-if="meassageGroupView.messageGroupInfo.length > 0">
+        <CkcAnswerThinkingHead 
+          :messageGroupView="meassageGroupView" 
+          :currentMessageViewInfo="currentMeassageViewInfo" />
+        <CkcAnswerDocuments 
+          v-if="meassageGroupView.isDocumentGroup" 
+          :meassageGroupView="meassageGroupView"
+          @clickDocument="clickDocument" />
+        <template v-else>
+          <div v-show="meassageGroupView.isExpanded">  
+            <div v-for="message in meassageGroupView.messageGroupInfo">
+                <div v-show="message.thinkingIsExpanded">
+                  <CkcAnswerThinking 
+                    v-if="message.type === MessageType.THINKING" 
+                    :message="message.content as string"
+                    :renderCustomId="prop.renderCustomId" 
+                    :customHtmlTags="prop.customHtmlTags" />
+                  <CkcAnswerToolUse 
+                    v-if="message.type === MessageType.TOOL_USE" 
+                    :toolUseComplete="meassageGroupView.toolUseComplete"
+                    :message="message.content as string" />
+                  <CkcAnswerToolUseSilent
+                    v-if="message.type === MessageType.TOOL_USE_SILENT"
+                    :toolUseComplete="meassageGroupView.toolUseComplete"
+                    :message="message.content as string" />
+                  <CkcAnswerContent 
+                    v-if="message.type === MessageType.ANSWER" 
+                    :message="message.content as string"
+                    :renderCustomId="prop.renderCustomId" 
+                    :customHtmlTags="prop.customHtmlTags" />  
+                </div>
               </div>
             </div>
-          </div>
-      </template>
+        </template>
+      </div>
+    </template>
+    <div v-if="end && $slots.actions">
+      <slot name="actions" :messageViewInfo="currentMeassageViewInfo"></slot>
     </div>
-  </template>
-  <div v-if="end && $slots.actions">
-    <slot name="actions" :messageViewInfo="currentMeassageViewInfo"></slot>
+    <CkcAnswerRecommendations 
+      @clickRecomendation="clickRecomendation" v-if="recommendations.length > 0" 
+      :messages="recommendations"  />
   </div>
-  <CkcAnswerRecommendations @clickRecomendation="clickRecomendation" v-if="recommendations.length > 0" :messages="recommendations"  />
 </template>
 
 <script setup lang="ts">
@@ -62,7 +73,7 @@ const emit = defineEmits<{
   (e: 'clickRecomendation', message: string) : void 
   (e: 'clickDocument', message: Document) : void 
 }>();
-const { currentMeassageViewInfo,recommendations,end, handleData } = useMessageView();
+const { currentMeassageViewInfo,recommendations,end, handleData, uploadHeartInfo } = useMessageView();
 const lastProcessedIndex = ref(0);
 const lastProcessedHistoryIndex = ref(0);
 
@@ -81,6 +92,7 @@ watch(() => prop.messages, (newVal) => {
     }
     lastProcessedIndex.value = newVal.length;
   }
+  console.log('prop.messages', currentMeassageViewInfo.value);
 }, { deep: true, immediate: true });
 
 watch(() => prop.historyMessages, (newVal) => {
@@ -94,5 +106,16 @@ watch(() => prop.historyMessages, (newVal) => {
 </script>
 
 <style lang="scss">
-
+  @use "../../styles/index.scss" as *;
+  .#{$ckcUiPrefix}-upload-heart {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 14px;
+    .#{$ckcUiPrefix}-loading {
+      width: 20px;
+      height: 20px;
+      margin-right: 8px;
+    }
+  }
 </style>

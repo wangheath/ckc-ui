@@ -1,14 +1,18 @@
 <template>
   <div class="ckc-ui-tool-silent" v-if="formattedJson && formattedJson.name">
+    <ToolIcon :size="14" v-if="toolUseComplete" />
+    <img v-else class="ckc-ui-tool-loading" src="../../assets/imgs/loading.gif" alt="avatar" />
     {{  formattedJson?.name }}
   </div>
 </template>
 
 <script setup lang="ts">
   import { computed } from 'vue';
+  import ToolIcon from '../svg/tool.vue';
   import json5 from 'json5';
   const prop = defineProps<{
       message: string;
+      toolUseComplete: boolean | undefined;
   }>();
 
   const formattedJson = computed(() => {
@@ -27,5 +31,10 @@
       font-size: 14px;
       color: #17204D;
       margin: 10px 0;
+  }
+  .#{$ckcUiPrefix}-tool-loading {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
   }
 </style>
