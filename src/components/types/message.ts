@@ -10,11 +10,14 @@ export const MessageType = {
     TOOL_USE_SILENT: 'tool_use_silent',
     TOOL_RESULT: 'tool_result',
     TOOL_RESULT_SILENT: 'tool_result_silent',
-    PING: 'ping',
+    // PING: 'ping',
     END: 'end',
     HEART: 'heart',
-    ALL_ANSWER: 'all_answer',
-    HEART_UPLOAD: 'heart_upload'
+    // ALL_ANSWER: 'all_answer',
+    HEART_UPLOAD: 'heart_upload',
+    // CHATFLOW_RESULT: 'chatflow_result',
+    // WORKFLOW_RESULT: 'workflow_result',
+    // AGENT_THINKING: 'agent_thinking',
 } as const;
 export interface Document {
     fileName: string;
