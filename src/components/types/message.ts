@@ -12,7 +12,7 @@ export const MessageType = {
     TOOL_RESULT_SILENT: 'tool_result_silent',
     // PING: 'ping',
     END: 'end',
-    HEART: 'heart',
+    // HEART: 'heart',
     // ALL_ANSWER: 'all_answer',
     HEART_UPLOAD: 'heart_upload',
     // CHATFLOW_RESULT: 'chatflow_result',

@@ -85,6 +85,18 @@ function clickRecomendation(message: string) {
 function clickDocument(message: Document) {
   emit('clickDocument', message);
 }
+const stopChat = () => {
+  end.value = true;
+  currentMeassageViewInfo.value.forEach(info => {
+    if (info.thinkState === 'loading') {
+      info.thinkState = 'break';
+    }
+  });
+  console.log('stopChat called');
+}
+defineExpose({
+  stopChat
+})
 
 watch(() => prop.messages, (newVal) => {
   if (newVal && newVal.length > lastProcessedIndex.value) {

@@ -1,6 +1,7 @@
 <template>
   <div class="about">
     <CkcAnswer 
+      ref="ckcAnswerRef"
       :messages="messages"  
       :historyMessages="historyMessages"
       render-custom-id="docs" 
@@ -11,6 +12,7 @@
         <button @click="alterMessages(actionsProps)">清空消息</button>
       </template>
     </CkcAnswer>
+    <button @click="stopChat()">清空消息</button>
   </div>
 </template>
 
@@ -25,10 +27,14 @@
   setCustomComponents('docs', {
     'custom-data': CustomComp,
   })
+  const ckcAnswerRef = ref<InstanceType<typeof CkcAnswer> | null>(null)
   const messages = ref<Message[]>([]);
   const historyMessages = ref<Message[]>([]);
   function alterMessages(actionsProps: any) {
     console.log('actionsProps', actionsProps)
+  }
+  function stopChat() {
+    ckcAnswerRef.value?.stopChat();
   }
   function recomendationAsk(message: string) {
     console.log('recomendationAsk', message)
