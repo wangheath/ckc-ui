@@ -20,7 +20,7 @@
   import { ref, onMounted } from 'vue';
   import CkcAnswer from '../../../src/components/CkcAnswer/index.ts';
   import type { Message, Document } from '../../../src/components/types/message';
-  import { message } from '../const/mock-data/message8';
+  import { message } from '../const/mock-data/messageA';
   import { setCustomComponents } from 'markstream-vue';
   import CustomComp from '../components/customComp.vue';
 

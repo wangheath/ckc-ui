@@ -121,7 +121,7 @@ export function useMessageView() {
     const isSameType = previousMessage.type === message.type;
 
     // 只有在 trace/session/type 都一致时，才将内容追加到上一条消息中
-    if (isSameTrace && isSameSession && isSameType && message.content && typeof message.content === 'string') {
+    if (isSameTrace && isSameSession && isSameType && typeof message.content === 'string') {
       previousMessage.content += message.content;
       return;
     }
