@@ -1,4 +1,108 @@
 export const message = [
+    {
+    "type": "heart_upload",
+    "traceId": "traceId_08XieI",
+    "sessionId": "lipeipei-013_DEF001001_20260430163834375",
+    "content": "{\"task\":\"upload\",\"percent\":\"20%\"}",
+    "created_at": 0,
+    "position": 0
+  },
+      {
+    "type": "heart_upload",
+    "traceId": "traceId_08XieI",
+    "sessionId": "lipeipei-013_DEF001001_20260430163834375",
+    "content": "{\"task\":\"upload\",\"percent\":\"25%\"}",
+    "created_at": 0,
+    "position": 0
+  },
+      {
+    "type": "heart_upload",
+    "traceId": "traceId_08XieI",
+    "sessionId": "lipeipei-013_DEF001001_20260430163834375",
+    "content": "{\"task\":\"upload\",\"percent\":\"29%\"}",
+    "created_at": 0,
+    "position": 0
+  },
+      {
+    "type": "heart_upload",
+    "traceId": "traceId_08XieI",
+    "sessionId": "lipeipei-013_DEF001001_20260430163834375",
+    "content": "{\"task\":\"upload\",\"percent\":\"38%\"}",
+    "created_at": 0,
+    "position": 0
+  },
+      {
+    "type": "heart_upload",
+    "traceId": "traceId_08XieI",
+    "sessionId": "lipeipei-013_DEF001001_20260430163834375",
+    "content": "{\"task\":\"upload\",\"percent\":\"45%\"}",
+    "created_at": 0,
+    "position": 0
+  },
+      {
+    "type": "heart_upload",
+    "traceId": "traceId_08XieI",
+    "sessionId": "lipeipei-013_DEF001001_20260430163834375",
+    "content": "{\"task\":\"upload\",\"percent\":\"55%\"}",
+    "created_at": 0,
+    "position": 0
+  },
+      {
+    "type": "heart_upload",
+    "traceId": "traceId_08XieI",
+    "sessionId": "lipeipei-013_DEF001001_20260430163834375",
+    "content": "{\"task\":\"upload\",\"percent\":\"56%\"}",
+    "created_at": 0,
+    "position": 0
+  },
+      {
+    "type": "heart_upload",
+    "traceId": "traceId_08XieI",
+    "sessionId": "lipeipei-013_DEF001001_20260430163834375",
+    "content": "{\"task\":\"upload\",\"percent\":\"65%\"}",
+    "created_at": 0,
+    "position": 0
+  },
+      {
+    "type": "heart_upload",
+    "traceId": "traceId_08XieI",
+    "sessionId": "lipeipei-013_DEF001001_20260430163834375",
+    "content": "{\"task\":\"upload\",\"percent\":\"70%\"}",
+    "created_at": 0,
+    "position": 0
+  },
+      {
+    "type": "heart_upload",
+    "traceId": "traceId_08XieI",
+    "sessionId": "lipeipei-013_DEF001001_20260430163834375",
+    "content": "{\"task\":\"upload\",\"percent\":\"77%\"}",
+    "created_at": 0,
+    "position": 0
+  },
+      {
+    "type": "heart_upload",
+    "traceId": "traceId_08XieI",
+    "sessionId": "lipeipei-013_DEF001001_20260430163834375",
+    "content": "{\"task\":\"upload\",\"percent\":\"79%\"}",
+    "created_at": 0,
+    "position": 0
+  },
+      {
+    "type": "heart_upload",
+    "traceId": "traceId_08XieI",
+    "sessionId": "lipeipei-013_DEF001001_20260430163834375",
+    "content": "{\"task\":\"upload\",\"percent\":\"83%\"}",
+    "created_at": 0,
+    "position": 0
+  },
+      {
+    "type": "heart_upload",
+    "traceId": "traceId_08XieI",
+    "sessionId": "lipeipei-013_DEF001001_20260430163834375",
+    "content": "{\"task\":\"upload\",\"percent\":\"100%\"}",
+    "created_at": 0,
+    "position": 0
+  },
   {
     "type": "thinking",
     "traceId": "traceId_08XieI",
@@ -124,6 +228,110 @@ export const message = [
     "traceId": "traceId_08XieI",
     "sessionId": "lipeipei-013_DEF001001_20260430163834375",
     "content": "询问",
+    "created_at": 0,
+    "position": 0
+  },
+      {
+    "type": "heart_upload",
+    "traceId": "traceId_08XieI",
+    "sessionId": "lipeipei-013_DEF001001_20260430163834375",
+    "content": "{\"task\":\"upload\",\"percent\":\"20%\"}",
+    "created_at": 0,
+    "position": 0
+  },
+      {
+    "type": "heart_upload",
+    "traceId": "traceId_08XieI",
+    "sessionId": "lipeipei-013_DEF001001_20260430163834375",
+    "content": "{\"task\":\"upload\",\"percent\":\"25%\"}",
+    "created_at": 0,
+    "position": 0
+  },
+      {
+    "type": "heart_upload",
+    "traceId": "traceId_08XieI",
+    "sessionId": "lipeipei-013_DEF001001_20260430163834375",
+    "content": "{\"task\":\"upload\",\"percent\":\"29%\"}",
+    "created_at": 0,
+    "position": 0
+  },
+      {
+    "type": "heart_upload",
+    "traceId": "traceId_08XieI",
+    "sessionId": "lipeipei-013_DEF001001_20260430163834375",
+    "content": "{\"task\":\"upload\",\"percent\":\"38%\"}",
+    "created_at": 0,
+    "position": 0
+  },
+      {
+    "type": "heart_upload",
+    "traceId": "traceId_08XieI",
+    "sessionId": "lipeipei-013_DEF001001_20260430163834375",
+    "content": "{\"task\":\"upload\",\"percent\":\"45%\"}",
+    "created_at": 0,
+    "position": 0
+  },
+      {
+    "type": "heart_upload",
+    "traceId": "traceId_08XieI",
+    "sessionId": "lipeipei-013_DEF001001_20260430163834375",
+    "content": "{\"task\":\"upload\",\"percent\":\"55%\"}",
+    "created_at": 0,
+    "position": 0
+  },
+      {
+    "type": "heart_upload",
+    "traceId": "traceId_08XieI",
+    "sessionId": "lipeipei-013_DEF001001_20260430163834375",
+    "content": "{\"task\":\"upload\",\"percent\":\"56%\"}",
+    "created_at": 0,
+    "position": 0
+  },
+      {
+    "type": "heart_upload",
+    "traceId": "traceId_08XieI",
+    "sessionId": "lipeipei-013_DEF001001_20260430163834375",
+    "content": "{\"task\":\"upload\",\"percent\":\"65%\"}",
+    "created_at": 0,
+    "position": 0
+  },
+      {
+    "type": "heart_upload",
+    "traceId": "traceId_08XieI",
+    "sessionId": "lipeipei-013_DEF001001_20260430163834375",
+    "content": "{\"task\":\"upload\",\"percent\":\"70%\"}",
+    "created_at": 0,
+    "position": 0
+  },
+      {
+    "type": "heart_upload",
+    "traceId": "traceId_08XieI",
+    "sessionId": "lipeipei-013_DEF001001_20260430163834375",
+    "content": "{\"task\":\"upload\",\"percent\":\"77%\"}",
+    "created_at": 0,
+    "position": 0
+  },
+      {
+    "type": "heart_upload",
+    "traceId": "traceId_08XieI",
+    "sessionId": "lipeipei-013_DEF001001_20260430163834375",
+    "content": "{\"task\":\"upload\",\"percent\":\"79%\"}",
+    "created_at": 0,
+    "position": 0
+  },
+      {
+    "type": "heart_upload",
+    "traceId": "traceId_08XieI",
+    "sessionId": "lipeipei-013_DEF001001_20260430163834375",
+    "content": "{\"task\":\"upload\",\"percent\":\"83%\"}",
+    "created_at": 0,
+    "position": 0
+  },
+      {
+    "type": "heart_upload",
+    "traceId": "traceId_08XieI",
+    "sessionId": "lipeipei-013_DEF001001_20260430163834375",
+    "content": "{\"task\":\"upload\",\"percent\":\"100%\"}",
     "created_at": 0,
     "position": 0
   },
@@ -2804,6 +3012,110 @@ export const message = [
     "traceId": "traceId_08XieI",
     "sessionId": "lipeipei-013_DEF001001_20260430163834375",
     "content": "。\n",
+    "created_at": 0,
+    "position": 0
+  },
+      {
+    "type": "heart_upload",
+    "traceId": "traceId_08XieI",
+    "sessionId": "lipeipei-013_DEF001001_20260430163834375",
+    "content": "{\"task\":\"upload\",\"percent\":\"20%\"}",
+    "created_at": 0,
+    "position": 0
+  },
+      {
+    "type": "heart_upload",
+    "traceId": "traceId_08XieI",
+    "sessionId": "lipeipei-013_DEF001001_20260430163834375",
+    "content": "{\"task\":\"upload\",\"percent\":\"25%\"}",
+    "created_at": 0,
+    "position": 0
+  },
+      {
+    "type": "heart_upload",
+    "traceId": "traceId_08XieI",
+    "sessionId": "lipeipei-013_DEF001001_20260430163834375",
+    "content": "{\"task\":\"upload\",\"percent\":\"29%\"}",
+    "created_at": 0,
+    "position": 0
+  },
+      {
+    "type": "heart_upload",
+    "traceId": "traceId_08XieI",
+    "sessionId": "lipeipei-013_DEF001001_20260430163834375",
+    "content": "{\"task\":\"upload\",\"percent\":\"38%\"}",
+    "created_at": 0,
+    "position": 0
+  },
+      {
+    "type": "heart_upload",
+    "traceId": "traceId_08XieI",
+    "sessionId": "lipeipei-013_DEF001001_20260430163834375",
+    "content": "{\"task\":\"upload\",\"percent\":\"45%\"}",
+    "created_at": 0,
+    "position": 0
+  },
+      {
+    "type": "heart_upload",
+    "traceId": "traceId_08XieI",
+    "sessionId": "lipeipei-013_DEF001001_20260430163834375",
+    "content": "{\"task\":\"upload\",\"percent\":\"55%\"}",
+    "created_at": 0,
+    "position": 0
+  },
+      {
+    "type": "heart_upload",
+    "traceId": "traceId_08XieI",
+    "sessionId": "lipeipei-013_DEF001001_20260430163834375",
+    "content": "{\"task\":\"upload\",\"percent\":\"56%\"}",
+    "created_at": 0,
+    "position": 0
+  },
+      {
+    "type": "heart_upload",
+    "traceId": "traceId_08XieI",
+    "sessionId": "lipeipei-013_DEF001001_20260430163834375",
+    "content": "{\"task\":\"upload\",\"percent\":\"65%\"}",
+    "created_at": 0,
+    "position": 0
+  },
+      {
+    "type": "heart_upload",
+    "traceId": "traceId_08XieI",
+    "sessionId": "lipeipei-013_DEF001001_20260430163834375",
+    "content": "{\"task\":\"upload\",\"percent\":\"70%\"}",
+    "created_at": 0,
+    "position": 0
+  },
+      {
+    "type": "heart_upload",
+    "traceId": "traceId_08XieI",
+    "sessionId": "lipeipei-013_DEF001001_20260430163834375",
+    "content": "{\"task\":\"upload\",\"percent\":\"77%\"}",
+    "created_at": 0,
+    "position": 0
+  },
+      {
+    "type": "heart_upload",
+    "traceId": "traceId_08XieI",
+    "sessionId": "lipeipei-013_DEF001001_20260430163834375",
+    "content": "{\"task\":\"upload\",\"percent\":\"79%\"}",
+    "created_at": 0,
+    "position": 0
+  },
+      {
+    "type": "heart_upload",
+    "traceId": "traceId_08XieI",
+    "sessionId": "lipeipei-013_DEF001001_20260430163834375",
+    "content": "{\"task\":\"upload\",\"percent\":\"83%\"}",
+    "created_at": 0,
+    "position": 0
+  },
+      {
+    "type": "heart_upload",
+    "traceId": "traceId_08XieI",
+    "sessionId": "lipeipei-013_DEF001001_20260430163834375",
+    "content": "{\"task\":\"upload\",\"percent\":\"100%\"}",
     "created_at": 0,
     "position": 0
   },

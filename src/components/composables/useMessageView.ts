@@ -5,6 +5,10 @@ export function useMessageView() {
   const currentMeassageViewInfo = ref<MessageViewInfo[]>([]); // 当前展示的消息分组信息，每个分组包含多条消息和分组状态
   const recommendations = ref<string[]>([]); // 推荐消息内容，单独提取出来方便展示组件使用
   const end = ref(false);
+  const uploadHeartInfo = ref<{
+    task: string;
+    percent: string;
+  }>();
   const mergingMessage = (message: Message) : MessageForView => {
     return {
       ...message,
@@ -27,28 +31,69 @@ export function useMessageView() {
     }
     if (message.type === MessageType.END || message.endFlag) {
       end.value = true;
+      return;
+    }
+    if (!message.type) {
+      return;
     }
     // 提取推荐问题内容，单独处理后直接返回，不进入消息分组逻辑
     if (message.type === MessageType.RECOMMENDATIONS) {
       recommendations.value = message.content as string[];
       return;
     }
-    if (!message.type) {
+    if (!Object.values(MessageType).includes(message.type)) {
       return;
     }
     if (message.type === MessageType.ANSWER && !message.content) {
       return;
     }
-    if ([
-      MessageType.END,
-      MessageType.HEART,
-      MessageType.TOOL_RESULT,
-      MessageType.TOOL_RESULT_SILENT,
-      MessageType.PING,
-      MessageType.ALL_ANSWER,
-    ].some(t=> t === message.type)) {
+    if (message.type === MessageType.EXCEPTION) {
+      end.value = true;
+    }
+    if(message.type === MessageType.HEART_UPLOAD) {
+      try {
+        const contentObj = JSON.parse(message.content as string);
+        uploadHeartInfo.value = {
+          task: contentObj.task,
+          percent: contentObj.percent
+        };
+      } catch (e) {
+        uploadHeartInfo.value = undefined;
+        return;
+      }
       return;
     }
+    uploadHeartInfo.value = undefined;
+    // 如果MessageType 是TOOL_RESULT，找到最近一条如果MessageType 为TOOL_USE 的消息的messageGroupInfo，toolUseComplete状态设置为 true
+    if(message.type === MessageType.TOOL_RESULT || message.type === MessageType.TOOL_RESULT_SILENT) {
+      const filterType = message.type === MessageType.TOOL_RESULT ? MessageType.TOOL_USE : MessageType.TOOL_USE_SILENT;
+      // 从后往前遍历，找到最近一条 TOOL_USE 或 TOOL_USE_SILENT 的消息
+      for (let i = currentMeassageViewInfo.value.length - 1; i >= 0; i--) {
+        const messageViewInfo = currentMeassageViewInfo.value[i];
+        const hasToolUseMessage = messageViewInfo.messageGroupInfo.some(
+          msg => msg.type === filterType
+        );
+        
+        if (hasToolUseMessage) {
+          messageViewInfo.toolUseComplete = true;
+          return;
+        }
+      }
+      return;
+    }
+    // if ([
+    //   MessageType.END,
+    //   MessageType.HEART,
+    //   MessageType.TOOL_RESULT,
+    //   MessageType.TOOL_RESULT_SILENT,
+    //   MessageType.PING,
+    //   MessageType.ALL_ANSWER,
+    //   MessageType.CHATFLOW_RESULT,
+    //   MessageType.WORKFLOW_RESULT,
+    //   MessageType.AGENT_THINKING
+    // ].some(t=> t === message.type)) {
+    //   return;
+    // }
     if (currentMeassageViewInfo.value.length === 0) {
       currentMeassageViewInfo.value.push({
         isExpanded: true,
@@ -76,7 +121,7 @@ export function useMessageView() {
     const isSameType = previousMessage.type === message.type;
 
     // 只有在 trace/session/type 都一致时，才将内容追加到上一条消息中
-    if (isSameTrace && isSameSession && isSameType && message.content && typeof message.content === 'string') {
+    if (isSameTrace && isSameSession && isSameType && typeof message.content === 'string') {
       previousMessage.content += message.content;
       return;
     }
@@ -115,8 +160,9 @@ export function useMessageView() {
       isExpanded: true,
       isDocumentGroup: message.type === MessageType.DOCUMENTS,
       thinkState: message.type === MessageType.THINKING ? 'loading' : undefined,
+      // toolUseComplete: message.type === MessageType.TOOL_USE || message.type === MessageType.TOOL_USE_SILENT ? false : undefined,
       messageGroupInfo: [mergingMessage(message)]
     });
   }
-  return { currentMeassageViewInfo, recommendations, end, handleData };
+  return { currentMeassageViewInfo, recommendations, end, handleData, uploadHeartInfo };
 }
