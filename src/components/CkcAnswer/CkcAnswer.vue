@@ -1,41 +1,54 @@
 <template>
-  <template v-for="(meassageGroupView, index) in currentMeassageViewInfo" :key="index">
-    <div  v-if="meassageGroupView.messageGroupInfo.length > 0">
-      <CkcAnswerThinkingHead 
-        :messageGroupView="meassageGroupView" 
-        :currentMessageViewInfo="currentMeassageViewInfo" />
-      <CkcAnswerDocuments 
-        v-if="meassageGroupView.isDocumentGroup" 
-        :meassageGroupView="meassageGroupView"
-        @clickDocument="clickDocument" />
-      <template v-else>
-        <div v-show="meassageGroupView.isExpanded">  
-          <div v-for="message in meassageGroupView.messageGroupInfo">
-              <div v-show="message.thinkingIsExpanded">
-                <CkcAnswerThinking 
-                  v-if="message.type === MessageType.THINKING" 
-                  :message="message.content as string"
-                  :renderCustomId="prop.renderCustomId" 
-                  :customHtmlTags="prop.customHtmlTags" />
-                <CkcAnswerToolUse 
-                  v-if="message.type === MessageType.TOOL_USE" 
-                  :message="message.content as string" />
-                <CkcAnswerToolUseSilent
-                  v-if="message.type === MessageType.TOOL_USE_SILENT"
-                  :message="message.content as string" />
-                <CkcAnswerContent 
-                  v-if="message.type === MessageType.ANSWER" 
-                  :message="message.content as string"
-                  :renderCustomId="prop.renderCustomId" 
-                  :customHtmlTags="prop.customHtmlTags" />  
+  <div class="ckc-ui-upload-heart" v-if="uploadHeartInfo && currentMeassageViewInfo.length === 0">
+    <img class="ckc-ui-loading" src="../../assets/imgs/loading.gif" alt="avatar" />
+    正在执行：{{ uploadHeartInfo.task }} 
+    <span style="margin-left: 20px;">进度： {{ uploadHeartInfo.percent }}</span>
+  </div>
+  <div>
+    <template v-for="(meassageGroupView, index) in currentMeassageViewInfo" :key="index">
+      <div  v-if="meassageGroupView.messageGroupInfo.length > 0">
+        <CkcAnswerThinkingHead 
+          :messageGroupView="meassageGroupView" 
+          :currentMessageViewInfo="currentMeassageViewInfo" />
+        <CkcAnswerDocuments 
+          v-if="meassageGroupView.isDocumentGroup" 
+          :meassageGroupView="meassageGroupView"
+          @clickDocument="clickDocument" />
+        <template v-else>
+          <div v-show="meassageGroupView.isExpanded">  
+            <div v-for="message in meassageGroupView.messageGroupInfo">
+                <div v-show="message.thinkingIsExpanded">
+                  <CkcAnswerThinking 
+                    v-if="message.type === MessageType.THINKING" 
+                    :message="message.content as string"
+                    :renderCustomId="prop.renderCustomId" 
+                    :customHtmlTags="prop.customHtmlTags" />
+                  <CkcAnswerToolUse 
+                    v-if="message.type === MessageType.TOOL_USE" 
+                    :toolUseComplete="meassageGroupView.toolUseComplete"
+                    :message="message.content as string" />
+                  <CkcAnswerToolUseSilent
+                    v-if="message.type === MessageType.TOOL_USE_SILENT"
+                    :toolUseComplete="meassageGroupView.toolUseComplete"
+                    :message="message.content as string" />
+                  <CkcAnswerContent 
+                    v-if="message.type === MessageType.ANSWER || message.type === MessageType.EXCEPTION" 
+                    :message="message.content as string"
+                    :renderCustomId="prop.renderCustomId" 
+                    :customHtmlTags="prop.customHtmlTags" />  
+                </div>
               </div>
             </div>
-          </div>
-      </template>
+        </template>
+      </div>
+    </template>
+    <div class="ckc-ui-task-run-tip" v-if="!end && !uploadHeartInfo && prop.messages && prop.messages.length > 0">执行中</div>
+    <div v-if="end && $slots.actions">
+      <slot name="actions" :messageViewInfo="currentMeassageViewInfo"></slot>
     </div>
-  </template>
-  <div v-if="end && $slots.actions">
-    <slot name="actions" :messageViewInfo="currentMeassageViewInfo"></slot>
+    <CkcAnswerRecommendations 
+      @clickRecomendation="clickRecomendation" v-if="recommendations.length > 0" 
+      :messages="recommendations"  />
   </div>
   <CkcAnswerRecommendations  @clickRecomendation="clickRecomendation" v-if="recommendations.length > 0" :messages="recommendations"  />
 </template>
@@ -62,7 +75,7 @@ const emit = defineEmits<{
   (e: 'clickRecomendation', message: string) : void 
   (e: 'clickDocument', message: Document) : void 
 }>();
-const { currentMeassageViewInfo,recommendations,end, handleData } = useMessageView();
+const { currentMeassageViewInfo,recommendations,end, handleData, uploadHeartInfo } = useMessageView();
 const lastProcessedIndex = ref(0);
 const lastProcessedHistoryIndex = ref(0);
 
@@ -73,6 +86,18 @@ function clickRecomendation(message: string) {
 function clickDocument(message: Document) {
   emit('clickDocument', message);
 }
+const stopChat = () => {
+  end.value = true;
+  currentMeassageViewInfo.value.forEach(info => {
+    if (info.thinkState === 'loading') {
+      info.thinkState = 'break';
+    }
+  });
+  console.log('stopChat called');
+}
+defineExpose({
+  stopChat
+})
 
 watch(() => prop.messages, (newVal) => {
   if (newVal && newVal.length > lastProcessedIndex.value) {
@@ -81,6 +106,7 @@ watch(() => prop.messages, (newVal) => {
     }
     lastProcessedIndex.value = newVal.length;
   }
+  // console.log('prop.messages', currentMeassageViewInfo.value);
 }, { deep: true, immediate: true });
 
 watch(() => prop.historyMessages, (newVal) => {
@@ -94,5 +120,74 @@ watch(() => prop.historyMessages, (newVal) => {
 </script>
 
 <style lang="scss">
-
+  @use "../../styles/index.scss" as *;
+  .#{$ckcUiPrefix}-upload-heart {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 14px;
+    .#{$ckcUiPrefix}-loading {
+      width: 20px;
+      height: 20px;
+      margin-right: 8px;
+    }
+  }
+  .#{$ckcUiPrefix}-task-run-tip {
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.26rem 0.7rem;
+    border-radius: 999px;
+    letter-spacing: 0.03em;
+    font-weight: 500;
+    animation: ckc-ui-pulse 1.4s ease-in-out infinite;
+  }
+  .#{$ckcUiPrefix}-task-run-tip::before {
+    content: '';
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 50%;
+    background-color: #2563eb;
+    animation: ckc-ui-dot-pulse 1s ease-in-out infinite;
+  }
+  .#{$ckcUiPrefix}-task-run-tip::after {
+    content: '';
+    display: inline-block;
+    width: 1.4em;
+    margin-left: 0.18rem;
+    animation: ckc-ui-dots 1.2s steps(4, end) infinite;
+  }
+  @keyframes ckc-ui-pulse {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-1px);
+    }
+  }
+  @keyframes ckc-ui-dot-pulse {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 0.7;
+    }
+    50% {
+      transform: scale(1.3);
+      opacity: 1;
+    }
+  }
+  @keyframes ckc-ui-dots {
+    0%, 20% {
+      content: '';
+    }
+    40% {
+      content: '.';
+    }
+    60% {
+      content: '..';
+    }
+    80%, 100% {
+      content: '...';
+    }
+  }
 </style>
