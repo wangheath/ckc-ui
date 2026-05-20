@@ -23,7 +23,7 @@
       </template>
     </div>
     <button class="ckc-ui-think-btn" @click="toggleFold(messageGroupView)">
-      <img v-if="messageGroupView.isExpanded" src="../../assets/imgs/arrow-down.png" alt="avatar" />
+      <img v-if="buttonExpanded" src="../../assets/imgs/arrow-down.png" alt="avatar" />
       <img v-else src="../../assets/imgs/arrow-right.png" alt="avatar" />
     </button>
   </div>
@@ -40,30 +40,44 @@ const { messageGroupView, currentMessageViewInfo } = defineProps<{
     currentMessageViewInfo: MessageViewInfo[];
     useSource: string;
 }>();
+const thinkingMessage = computed(() =>
+  messageGroupView.messageGroupInfo.find((item) => item.type === MessageType.THINKING)
+);
+const isLastGroup = computed(() => {
+  const groupIndex = currentMessageViewInfo.indexOf(messageGroupView);
+  return (
+    groupIndex === currentMessageViewInfo.length - 1 ||
+    (groupIndex === currentMessageViewInfo.length - 2 &&
+      currentMessageViewInfo[currentMessageViewInfo.length - 1].messageGroupInfo[0].type === MessageType.DOCUMENTS)
+  );
+});
+const buttonExpanded = computed(() =>
+  isLastGroup.value ? !!thinkingMessage.value?.thinkingIsExpanded : messageGroupView.isExpanded
+);
 const toggleFold = (messageGroupView: MessageViewInfo) => {
   const groupIndex = currentMessageViewInfo.indexOf(messageGroupView);
   if (groupIndex < 0) {
     return;
   }
 
-  const isLastGroup = (groupIndex === currentMessageViewInfo.length - 1) 
-                      || (groupIndex === currentMessageViewInfo.length - 2 
-                          && currentMessageViewInfo[currentMessageViewInfo.length - 1].messageGroupInfo[0].type === MessageType.DOCUMENTS
-                        );
+  const isLast =
+    groupIndex === currentMessageViewInfo.length - 1 ||
+    (groupIndex === currentMessageViewInfo.length - 2 &&
+      currentMessageViewInfo[currentMessageViewInfo.length - 1].messageGroupInfo[0].type === MessageType.DOCUMENTS);
   const nextGroupExpandState = !messageGroupView.isExpanded;
-  const thinkingMessage = messageGroupView.messageGroupInfo.find(
-      (item) => item.type === MessageType.THINKING
+  const thinking = messageGroupView.messageGroupInfo.find(
+    (item) => item.type === MessageType.THINKING
   );
 
   // 非最后一个历史组：切换组展开状态，并同步 thinking 消息的折叠状态
-  if (!isLastGroup) {
+  if (!isLast) {
     messageGroupView.isExpanded = nextGroupExpandState;
   }
 
   // 最后一个组：保留组状态，仅切换思考消息的展开状态
-  if (thinkingMessage) {
-    thinkingMessage.thinkingIsExpanded = isLastGroup
-      ? !thinkingMessage.thinkingIsExpanded
+  if (thinking) {
+    thinking.thinkingIsExpanded = isLast
+      ? !thinking.thinkingIsExpanded
       : nextGroupExpandState;
   }
 }
