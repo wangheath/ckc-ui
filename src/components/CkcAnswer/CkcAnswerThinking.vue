@@ -74,6 +74,7 @@ onMounted(async () => {
   max-height: 120px;
   overflow-y: auto;
   word-break: break-word;
+  width: 100%;
   @include thinkStyle;
   .markstream-vue {
     --ms-text-body: 13px;

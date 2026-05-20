@@ -9,7 +9,8 @@
       <div  v-if="meassageGroupView.messageGroupInfo.length > 0">
         <CkcAnswerThinkingHead 
           :messageGroupView="meassageGroupView" 
-          :currentMessageViewInfo="currentMeassageViewInfo" />
+          :currentMessageViewInfo="currentMeassageViewInfo" 
+          :useSource="prop.useSource"/>
         <CkcAnswerDocuments 
           v-if="meassageGroupView.isDocumentGroup" 
           :meassageGroupView="meassageGroupView"
@@ -65,7 +66,9 @@ import CkcAnswerContent from './CkcAnswerContent.vue';
 import CkcAnswerThinkingHead from './CkcAnswerThinkingHead.vue';
 import CkcAnswerDocuments from './CkcAnswerDocuments.vue';
 import CkcAnswerRecommendations from './CkcAnswerRecommendations.vue';
-const prop = defineProps<CkcAnswerProps>();
+const prop = withDefaults(defineProps<CkcAnswerProps>(), {
+  useSource: 'pc'
+});
 
 // 提供 markdown 渲染组件，默认使用 markstream-vue，也可外部传入
 if (prop.markdownComponent) {
