@@ -50,7 +50,7 @@
       @clickRecomendation="clickRecomendation" v-if="recommendations.length > 0" 
       :messages="recommendations"  />
   </div>
-  <CkcAnswerRecommendations  @clickRecomendation="clickRecomendation" v-if="recommendations.length > 0 && prop.isShowRecommendations" :messages="recommendations"  />
+  <CkcAnswerRecommendations  @clickRecomendation="clickRecomendation" v-if="recommendations.length > 0" :messages="recommendations"  />
 </template>
 
 <script setup lang="ts">
@@ -65,7 +65,7 @@ import CkcAnswerContent from './CkcAnswerContent.vue';
 import CkcAnswerThinkingHead from './CkcAnswerThinkingHead.vue';
 import CkcAnswerDocuments from './CkcAnswerDocuments.vue';
 import CkcAnswerRecommendations from './CkcAnswerRecommendations.vue';
-const prop = withDefaults(defineProps<CkcAnswerProps>(), { isShowRecommendations: true });
+const prop = defineProps<CkcAnswerProps>();
 
 // 提供 markdown 渲染组件，默认使用 markstream-vue，也可外部传入
 if (prop.markdownComponent) {
