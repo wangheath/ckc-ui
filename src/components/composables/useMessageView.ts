@@ -74,7 +74,7 @@ export function useMessageView() {
           msg => msg.type === filterType
         );
         
-        if (hasToolUseMessage) {
+        if (hasToolUseMessage && !messageViewInfo.toolUseComplete) {
           messageViewInfo.toolUseComplete = true;
           return;
         }
@@ -121,7 +121,7 @@ export function useMessageView() {
     const isSameType = previousMessage.type === message.type;
 
     // 只有在 trace/session/type 都一致时，才将内容追加到上一条消息中
-    if (isSameTrace && isSameSession && isSameType && typeof message.content === 'string') {
+    if (isSameTrace && isSameSession && isSameType && typeof message.content === 'string' && message.type !== MessageType.TOOL_USE && message.type !== MessageType.TOOL_USE_SILENT) {
       previousMessage.content += message.content;
       return;
     }
