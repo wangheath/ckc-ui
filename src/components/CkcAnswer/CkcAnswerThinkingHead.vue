@@ -1,21 +1,30 @@
 <template>
-  <div v-if="isShow" :class="['ckc-ui-think-head', 'is-expanded']">
-    <img v-if="loading" class="ckc-ui-think-img" src="../../assets/imgs/deepThink.gif" alt="avatar" />
-    <DeepThink v-if="isSuccess"></DeepThink>
-    <template v-if="loading">
-      执行中...
-      <!-- 思考中... -->
-    </template>
-    <template v-if="isSuccess">
-      执行完成
-      <!-- 已深度思考 -->
-    </template>
-    <template v-if="isBreak">
-      执行终止
-      <!-- 已终止 -->
-    </template>
+  <div v-if="isShow" :class="['ckc-ui-think-head', 'is-expanded', { 'is-mobile': useSource !== 'pc' }]">
+    <div class="ckc-ui-think-left">
+      <template v-if="useSource==='pc'">
+        <img v-if="loading" class="ckc-ui-think-img" src="../../assets/imgs/deepThink.gif" alt="avatar" />
+        <DeepThink v-if="isSuccess"></DeepThink>
+      </template>
+      <template v-else>
+        <img v-if="loading" class="ckc-ui-think-img" src="../../assets/imgs/mobileThink.gif" alt="avatar" />
+        <MobileDeepThink v-if="isSuccess"></MobileDeepThink>
+      </template>
+      <template v-if="loading">
+        执行中...
+        <!-- 思考中... -->
+      </template>
+      <template v-if="isSuccess">
+        执行完成
+        <!-- 已深度思考 -->
+      </template>
+      <template v-if="isBreak">
+        执行终止
+        <!-- 已终止 -->
+      </template>
+    </div>
     <button class="ckc-ui-think-btn" @click="toggleFold(messageGroupView)">
-      <img src="../../assets/imgs/arrow-down.png" alt="avatar" />
+      <img v-if="messageGroupView.isExpanded" src="../../assets/imgs/arrow-down.png" alt="avatar" />
+      <img v-else src="../../assets/imgs/arrow-right.png" alt="avatar" />
     </button>
   </div>
 </template>
@@ -24,9 +33,12 @@
 import { computed } from 'vue';
 import { MessageType, type MessageViewInfo } from '../types/message';
 import DeepThink from '../svg/deepThink.vue';
+import MobileDeepThink from '../svg/mobileThink.vue';
+
 const { messageGroupView, currentMessageViewInfo } = defineProps<{
     messageGroupView: MessageViewInfo;
     currentMessageViewInfo: MessageViewInfo[];
+    useSource: string;
 }>();
 const toggleFold = (messageGroupView: MessageViewInfo) => {
   const groupIndex = currentMessageViewInfo.indexOf(messageGroupView);
@@ -82,6 +94,18 @@ const isBreak = computed(() => messageGroupView.thinkState === 'break');
       width: 100%;
     }
 
+    &.is-mobile {
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    .ckc-ui-think-left {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+
     .#{$ckcUiPrefix}-think-img {
       width: 16px;
       height: 16px;
@@ -99,6 +123,11 @@ const isBreak = computed(() => messageGroupView.thinkState === 'break');
       display: inline-flex;
       align-items: center;
       justify-content: center;
+
+      img {
+        width: 16px;
+        height: 16px;
+      }
     }
   }
 </style>
