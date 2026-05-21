@@ -47,9 +47,6 @@
     <div v-if="end && $slots.actions">
       <slot name="actions" :messageViewInfo="currentMeassageViewInfo"></slot>
     </div>
-    <CkcAnswerRecommendations 
-      @clickRecomendation="clickRecomendation" v-if="recommendations.length > 0" 
-      :messages="recommendations"  />
   </div>
   <CkcAnswerRecommendations  @clickRecomendation="clickRecomendation" v-if="recommendations.length > 0" :messages="recommendations"  />
 </template>
