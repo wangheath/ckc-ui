@@ -44,7 +44,7 @@
     </template>
     <div class="ckc-ui-task-run-tip" v-if="!end && !uploadHeartInfo && prop.messages && prop.messages.length > 0">
       <img class="ckc-ui-task-run-tip-loading" src="../../assets/imgs/loading1.png" alt="avatar" />
-      执行中...
+      任务执行中...
     </div>
     <div v-if="end && $slots.actions">
       <slot name="actions" :messageViewInfo="currentMeassageViewInfo"></slot>
