@@ -152,6 +152,15 @@ watch(() => prop.historyMessages, (newVal) => {
     animation: ckc-ui-spin 1s linear infinite;
   }
 
+  @keyframes ckc-ui-spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
   @keyframes ckc-ui-pulse {
     0%, 100% {
       transform: translateY(0);
