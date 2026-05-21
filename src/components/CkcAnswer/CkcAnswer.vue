@@ -42,7 +42,10 @@
         </template>
       </div>
     </template>
-    <div class="ckc-ui-task-run-tip" v-if="!end && !uploadHeartInfo && prop.messages && prop.messages.length > 0">执行中</div>
+    <div class="ckc-ui-task-run-tip" v-if="!end && !uploadHeartInfo && prop.messages && prop.messages.length > 0">
+      <img class="ckc-ui-task-run-tip-loading" src="../../assets/imgs/loading1.png" alt="avatar" />
+      执行中...
+    </div>
     <div v-if="end && $slots.actions">
       <slot name="actions" :messageViewInfo="currentMeassageViewInfo"></slot>
     </div>
@@ -143,51 +146,18 @@ watch(() => prop.historyMessages, (newVal) => {
     font-weight: 500;
     animation: ckc-ui-pulse 1.4s ease-in-out infinite;
   }
-  .#{$ckcUiPrefix}-task-run-tip::before {
-    content: '';
-    width: 0.45rem;
-    height: 0.45rem;
-    border-radius: 50%;
-    background-color: #2563eb;
-    animation: ckc-ui-dot-pulse 1s ease-in-out infinite;
+  .#{$ckcUiPrefix}-task-run-tip-loading {
+    width: 20px;
+    height: 20px;
+    animation: ckc-ui-spin 1s linear infinite;
   }
-  .#{$ckcUiPrefix}-task-run-tip::after {
-    content: '';
-    display: inline-block;
-    width: 1.4em;
-    margin-left: 0.18rem;
-    animation: ckc-ui-dots 1.2s steps(4, end) infinite;
-  }
+
   @keyframes ckc-ui-pulse {
     0%, 100% {
       transform: translateY(0);
     }
     50% {
       transform: translateY(-1px);
-    }
-  }
-  @keyframes ckc-ui-dot-pulse {
-    0%, 100% {
-      transform: scale(1);
-      opacity: 0.7;
-    }
-    50% {
-      transform: scale(1.3);
-      opacity: 1;
-    }
-  }
-  @keyframes ckc-ui-dots {
-    0%, 20% {
-      content: '';
-    }
-    40% {
-      content: '.';
-    }
-    60% {
-      content: '..';
-    }
-    80%, 100% {
-      content: '...';
     }
   }
 </style>
