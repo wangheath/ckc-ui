@@ -59,25 +59,17 @@ const toggleFold = (messageGroupView: MessageViewInfo) => {
   if (groupIndex < 0) {
     return;
   }
-
-  const isLast =
-    groupIndex === currentMessageViewInfo.length - 1 ||
-    (groupIndex === currentMessageViewInfo.length - 2 &&
-      currentMessageViewInfo[currentMessageViewInfo.length - 1].messageGroupInfo[0].type === MessageType.DOCUMENTS);
   const nextGroupExpandState = !messageGroupView.isExpanded;
-  const thinking = messageGroupView.messageGroupInfo.find(
-    (item) => item.type === MessageType.THINKING
-  );
 
   // 非最后一个历史组：切换组展开状态，并同步 thinking 消息的折叠状态
-  if (!isLast) {
+  if (!isLastGroup.value) {
     messageGroupView.isExpanded = nextGroupExpandState;
   }
 
   // 最后一个组：保留组状态，仅切换思考消息的展开状态
-  if (thinking) {
-    thinking.thinkingIsExpanded = isLast
-      ? !thinking.thinkingIsExpanded
+  if (thinkingMessage.value) {
+    thinkingMessage.value.thinkingIsExpanded = isLastGroup.value
+      ? !thinkingMessage.value.thinkingIsExpanded
       : nextGroupExpandState;
   }
 }

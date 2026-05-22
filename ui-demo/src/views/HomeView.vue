@@ -6,6 +6,7 @@
       :historyMessages="historyMessages"
       render-custom-id="docs" 
       :custom-html-tags="['custom-data']"
+      useSource="mobile"
       @click-recomendation="recomendationAsk"
       @click-document="documentClick">
       <template #actions="actionsProps">
@@ -48,7 +49,7 @@
       if (index < message.length) {
         messages.value.push(message[index] as Message);
         index++;
-        setTimeout(addMessage, 20); // 每秒添加一条消息，模拟流式返回
+        setTimeout(addMessage, 200); // 每200毫秒添加一条消息，模拟流式返回
       }
     };
     addMessage();
